@@ -1,9 +1,10 @@
-__author__ = 'Srinivasan'
+__author__ = 'Sumanth Srinivasan'
 
-from soundmodular import Patcher
 from pyaudio import paInt16
+
+from packages.soundmodular import Patcher
 from noteparser import get_raag
-from freq import get_frequency
+from util.freq import get_frequency
 
 options = {
     'format': paInt16,
@@ -12,9 +13,9 @@ options = {
     'save_file': 'testfile.wav'
 }
 
-root = 440
-raag_name = 'Adana'
-raag = get_raag(raag_name)
+root = [440]
+raag_name = ['Adana']
+raag = get_raag(raag_name[0])
 print raag['aaroha']
 
 patcher = Patcher(options)
@@ -23,7 +24,7 @@ T = 0.3                 # Time in seconds
 
 for note in raag['aaroha']:
     # print (type(note))
-    freq = get_frequency(root, int(note) - 1)
+    freq = get_frequency(root[0], int(note) - 1)
     osc = module.osc_tone(T, freq)
     patcher.to_master(osc, 0.5, 0.5)
 

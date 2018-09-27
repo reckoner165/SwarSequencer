@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8d0ae5d-e508-4c69-b8f9-7f42f759874a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SwarSequencer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SwarSequencer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repl.py" beforeDir="false" afterPath="$PROJECT_DIR$/repl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testfile.wav" beforeDir="false" afterPath="$PROJECT_DIR$/testfile.wav" afterDir="false" />
     </list>
     <ignored path="SwarSequencer.iws" />
@@ -20,8 +23,9 @@
     <session id="-1263060021">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -41,13 +45,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="md" value="1092" />
-          <entry key="py" value="190" />
+          <entry key="py" value="1067" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Markdown" value="1089" />
-          <entry key="Python" value="193" />
+          <entry key="Python" value="1070" />
         </counts>
       </usages-collector>
     </session>
@@ -87,27 +91,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/repl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="16" />
+            <state relative-caret-position="120">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
               <folding>
-                <element signature="e#0#27#0" expanded="true" />
-                <marker date="1538058871000" expanded="true" signature="427:428" ph="..." />
-                <marker date="1538058871000" expanded="true" signature="837:842" ph="..." />
-                <marker date="1538058871000" expanded="true" signature="890:918" ph="..." />
+                <marker date="1538075754000" expanded="true" signature="1153:1154" ph="..." />
+                <marker date="1538075754000" expanded="true" signature="1170:1175" ph="..." />
+                <marker date="1538075754000" expanded="true" signature="1224:1253" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
               <first_editor relative-caret-position="371">
-                <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+                <caret line="28" selection-start-line="28" selection-end-line="28" />
               </first_editor>
               <second_editor />
             </state>
@@ -117,7 +120,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/ragasPitchClasses.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5625">
+            <state relative-caret-position="98055">
               <caret line="6537" column="10" selection-start-line="6537" selection-start-column="10" selection-end-line="6537" selection-end-column="10" />
             </state>
           </provider>
@@ -126,7 +129,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/packages/soundmodular.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="225">
               <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
             </state>
           </provider>
@@ -157,15 +160,15 @@
         <option value="$PROJECT_DIR$/get-frequency.py" />
         <option value="$PROJECT_DIR$/noteparser.py" />
         <option value="$PROJECT_DIR$/sequencer.py" />
-        <option value="$PROJECT_DIR$/repl.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/repl.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="971" />
+    <option name="width" value="1440" />
+    <option name="height" value="828" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -368,10 +371,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/packages/soundmodular.py">
+    <entry file="file://$PROJECT_DIR$/noteparser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+        <state relative-caret-position="285">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
@@ -382,10 +385,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/noteparser.py">
+    <entry file="file://$PROJECT_DIR$/data/ragasPitchClasses.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="98055">
+          <caret line="6537" column="10" selection-start-line="6537" selection-start-column="10" selection-end-line="6537" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/packages/soundmodular.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="371">
+            <caret line="28" selection-start-line="28" selection-end-line="28" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
@@ -399,33 +419,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/ragasPitchClasses.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5625">
-          <caret line="6537" column="10" selection-start-line="6537" selection-start-column="10" selection-end-line="6537" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/repl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="16" />
+        <state relative-caret-position="120">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
-            <marker date="1538058871000" expanded="true" signature="427:428" ph="..." />
-            <marker date="1538058871000" expanded="true" signature="837:842" ph="..." />
-            <marker date="1538058871000" expanded="true" signature="890:918" ph="..." />
+            <marker date="1538075754000" expanded="true" signature="1153:1154" ph="..." />
+            <marker date="1538075754000" expanded="true" signature="1170:1175" ph="..." />
+            <marker date="1538075754000" expanded="true" signature="1224:1253" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="371">
-            <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>

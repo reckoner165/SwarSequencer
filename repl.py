@@ -22,40 +22,57 @@ root = [440]
 patcher = Patcher(options)
 module = patcher.module
 T = 0.2
-notes_queue = Queue.Queue()
+
+status_queue = Queue.Queue()
+
+status = {
+    'notes': [],
+    'root': root
+}
 
 
 def sequence(queue):
-    print "playing notes!"
-    old_notes = [1]
+    current_status = {
+        'notes': [1],
+        'root': [440]
+    }
     while True:
 
         try:
-            new_notes = queue.get(timeout=0.1)
-            old_notes = new_notes[:]
+            new_status = queue.get(timeout=0.1)
+            current_status = new_status.copy()
         except Queue.Empty:
             pass
 
-        for note in old_notes:
-            freq = get_frequency(root[0], int(note) - 1)
+        '''
+        TODO: for note, time in zip(current_status['notes'], current_status['time'])
+        '''
+
+        for note in current_status['notes']:
+            freq = get_frequency(current_status['root'][0], int(note) - 1)
             osc = module.osc_tone(T, freq)
             patcher.to_master(osc, 0.5, 0.5)
 
 
-t = Thread(target=sequence, args=(notes_queue,))
+t = Thread(target=sequence, args=(status_queue,))
 t.daemon = True
 t.start()
 
+# Interaction Methods
 
 def play_aaroha(raag_name):
     raag = get_raag(raag_name)
-    notes = raag['aaroha']
-    notes_queue.put(notes)
+    status['notes'] = raag['aaroha']
+    status_queue.put(status)
 
 def play_avaroha(raag_name):
     raag = get_raag(raag_name)
-    notes = raag['avaroha']
-    notes_queue.put(notes)
+    status['notes'] = raag['avaroha']
+    status_queue.put(status)
+
+def set_root(new_root):
+    status['root'] = [new_root]
+    status_queue.put(status)
 
 def repl_exit():
     patcher.terminate()
@@ -64,7 +81,6 @@ def repl_exit():
 
 def get_raags():
     print get_raag_list()
-
 
 def honk(message):
     os.system('say "' + message + '"')

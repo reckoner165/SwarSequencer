@@ -18,22 +18,31 @@ Now interactively running SwarSequencer
 >>>
 ```
 
-Use `get_raags()` to obtain a list of available raags.  
+Use `get_raags()` to obtain a list of available raags.
+Set raag to one from the list using `set_raag()` thus
+
+```python
+>>> set_raag('Bhairav')
+raag set to:  Bhairav
+>>>
+```
+
+
 Use a raag from the list to play the basic aaroha and avaroha scale traversal.
 
 ```python
->>> play_aaroha('Bhairav')
+>>> aaroha(3)
 >>>
 ```
-Should play the ascending traversal from the Bhairav raag. Similarly, 
+Should play the 3-note ascending figure from the Bhairav raag. Similarly,
 
 ```python
->>> play_avaroha('Hamsadhwani')
+>>> avaroha(4)
 >>>
 
 ```
 
-Should play the descending traversal from the Hamsadhwani raag.
+Should play the 4-note descending melodic figure.
 
 To exit the interpreter, type `exit()` 
 

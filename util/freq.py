@@ -14,8 +14,10 @@ semitones = {
     9: 1.6875,
     10: 1.778,
     11: 1.898,
-    12: 2
 }
 
 def get_frequency(root_freq, semitone):
+    if semitone >= 12:
+        return 2 * get_frequency(root_freq, semitone - 12)
+
     return root_freq * semitones[semitone]

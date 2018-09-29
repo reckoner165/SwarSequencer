@@ -18,6 +18,7 @@ options = {
 }
 
 root = [440]
+raag = {'name' : None}
 
 patcher = Patcher(options)
 module = patcher.module
@@ -49,6 +50,9 @@ def sequence(queue):
         '''
 
         for note in current_status['notes']:
+            if note == 0:
+                continue
+
             freq = get_frequency(current_status['root'][0], int(note) - 1)
             osc = module.osc_tone(T, freq)
             patcher.to_master(osc, 0.5, 0.5)
@@ -60,15 +64,34 @@ t.start()
 
 # Interaction Methods
 
-def play_aaroha(raag_name):
-    raag = get_raag(raag_name)
-    status['notes'] = raag['aaroha']
+def aaroha(num_notes):
+    global raag
+    play_notes = raag['aaroha']
+    sequence_notes(play_notes, num_notes)
+
+def avaroha(num_notes):
+    global raag
+    play_notes = raag['avaroha']
+    sequence_notes(play_notes, num_notes)
+
+def sequence_notes(note_list, num_notes):
+    if num_notes > len(note_list):
+        status['notes'] = note_list
+        for n in range(1, num_notes - len(note_list)):
+            status['notes'].append(int(note_list[n]) + 12)
+
+    else:
+        status['notes'] = note_list[0: num_notes]
     status_queue.put(status)
 
-def play_avaroha(raag_name):
+def set_raag(raag_name):
+    global raag
     raag = get_raag(raag_name)
-    status['notes'] = raag['avaroha']
-    status_queue.put(status)
+    raag.update({'name': raag_name})
+    print "raag set to: ", str(raag['name'])
+
+def get_current_raag():
+    print raag['name']
 
 def set_root(new_root):
     status['root'] = [new_root]
@@ -77,7 +100,6 @@ def set_root(new_root):
 def repl_exit():
     patcher.terminate()
     exit()
-
 
 def get_raags():
     print get_raag_list()

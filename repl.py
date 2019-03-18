@@ -27,21 +27,23 @@ T = 0.2
 status_queue = Queue.Queue()
 
 status = {
-    'notes': [],
-    'root': root
+    'notes': [1],
+    'root': root,
+    'duration': T
 }
 
 
 def sequence(queue):
     current_status = {
         'notes': [1],
-        'root': [440]
+        'root': [440],
+        'duration': [0.2]
     }
     while True:
 
         try:
             new_status = queue.get(timeout=0.1)
-            current_status = new_status.copy()
+            current_status = dict(current_status, **new_status)
         except Queue.Empty:
             pass
 
@@ -54,7 +56,7 @@ def sequence(queue):
                 continue
 
             freq = get_frequency(current_status['root'][0], int(note) - 1)
-            osc = module.osc_tone(T, freq)
+            osc = module.osc_tone(current_status['duration'][0], freq)
             patcher.to_master(osc, 0.5, 0.5)
 
 
@@ -106,6 +108,12 @@ def get_raags():
 
 def honk(message):
     os.system('say "' + message + '"')
+
+def bpm(bpm):
+    new_duration = 60.00 / bpm
+    status['duration'] = [new_duration]
+    status_queue.put(status)
+    print "Tempo set to", bpm
 
 
 if __name__ == "__main__":

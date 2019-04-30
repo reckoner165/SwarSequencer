@@ -48,6 +48,19 @@ To exit the interpreter, type `exit()`
 
 This will terminate your session and export a `testfile.wav` in the root directory of your cloned repo.
 
+## List of Methods (WIP documentation)
+
+ - aaroha(number_of_notes, stutter)
+ - avaroha(number_of_notes, stutter)
+ - bpm(beats_per_minute)
+ - get_raags()
+ - set_raag(raag_name)
+ - get_current_raag()
+ - set_root(root_note_frequency)
+ - sequence_notes(list_of_notes, number_of_notes_to_play, stutter)
+ - exit()
+
+
 ## Shoulders
 
 This project stands on the shoulders of a glorious corpus of Indian raags put together by [shockmonger](https://github.com/shockmonger) in their [ragaDB](https://github.com/shockmonger/ragaDB).

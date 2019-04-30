@@ -3,6 +3,7 @@ from sequencer import Sequencer
 
 import code
 import os
+import Queue
 
 from threading import Thread
 

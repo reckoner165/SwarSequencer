@@ -18,7 +18,7 @@ class Sequencer:
         self.module = self.patcher.module
 
     def sequence(self, queue):
-        current_status = {
+        self.status = {
             'notes': [1],
             'root': [440],
             'duration': [0.2],
@@ -29,7 +29,7 @@ class Sequencer:
 
             try:
                 new_status = queue.get(timeout=0.1)
-                current_status = dict(current_status, **new_status)
+                self.status = dict(self.status, **new_status)
             except Queue.Empty:
                 pass
 
@@ -37,13 +37,24 @@ class Sequencer:
             TODO: for note, time in zip(current_status['notes'], current_status['time'])
             '''
 
-            for note in current_status['notes']:
-                if note == 0:
+            self.play(self.status['notes'], self.status['duration'][0])
+
+
+    def play(self, notes, duration):
+        for note in notes:
+                # Subdivided notes are in a list
+                if type(note) is list:
+                    self.play(note, duration/len(note))
                     continue
 
-                freq = get_frequency(current_status['root'][0], int(note) - 1)
-                for i in range (0, current_status['stutter'][0]):
-                    osc = self.module.osc_tone(current_status['duration'][0] / current_status['stutter'][0], freq)
+                # 0 signifies a rest/silent note
+                if note == 0:
+                    # Send out a block of silence for one subdivision
+                    silence = self.module.silence(duration)
+                    self.patcher.to_master(silence, 0, 0)
+                    continue
+
+                freq = get_frequency(self.status['root'][0], int(note) - 1)
+                for i in range (0, self.status['stutter'][0]):
+                    osc = self.module.osc_tone(duration / self.status['stutter'][0], freq)
                     self.patcher.to_master(osc, 0.5, 0.5)
-
-

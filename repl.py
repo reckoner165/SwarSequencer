@@ -27,21 +27,25 @@ T = 0.2
 status_queue = Queue.Queue()
 
 status = {
-    'notes': [],
-    'root': root
+    'notes': [1],
+    'root': root,
+    'duration': [T],
+    'stutter': [1]
 }
 
 
 def sequence(queue):
     current_status = {
         'notes': [1],
-        'root': [440]
+        'root': [440],
+        'duration': [0.2],
+        'stutter': [1]
     }
     while True:
 
         try:
             new_status = queue.get(timeout=0.1)
-            current_status = new_status.copy()
+            current_status = dict(current_status, **new_status)
         except Queue.Empty:
             pass
 
@@ -54,8 +58,9 @@ def sequence(queue):
                 continue
 
             freq = get_frequency(current_status['root'][0], int(note) - 1)
-            osc = module.osc_tone(T, freq)
-            patcher.to_master(osc, 0.5, 0.5)
+            for i in range (0, current_status['stutter'][0]):
+                osc = module.osc_tone(current_status['duration'][0] / current_status['stutter'][0], freq)
+                patcher.to_master(osc, 0.5, 0.5)
 
 
 t = Thread(target=sequence, args=(status_queue,))
@@ -64,17 +69,18 @@ t.start()
 
 # Interaction Methods
 
-def aaroha(num_notes):
+def aaroha(num_notes, stutter=1):
     global raag
     play_notes = raag['aaroha']
-    sequence_notes(play_notes, num_notes)
+    sequence_notes(play_notes, num_notes, stutter)
 
-def avaroha(num_notes):
+def avaroha(num_notes, stutter=1):
     global raag
     play_notes = raag['avaroha']
-    sequence_notes(play_notes, num_notes)
+    sequence_notes(play_notes, num_notes, stutter)
 
-def sequence_notes(note_list, num_notes):
+def sequence_notes(note_list, num_notes, stutter):
+    status['stutter'] = [stutter]
     if num_notes > len(note_list):
         status['notes'] = note_list
         for n in range(1, num_notes - len(note_list)):
@@ -106,6 +112,12 @@ def get_raags():
 
 def honk(message):
     os.system('say "' + message + '"')
+
+def bpm(bpm):
+    new_duration = 60.00 / bpm
+    status['duration'] = [new_duration]
+    status_queue.put(status)
+    print "Tempo set to", bpm
 
 
 if __name__ == "__main__":

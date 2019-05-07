@@ -1,69 +1,26 @@
-from pyaudio import paInt16
-
-from packages.soundmodular import Patcher
 from noteparser import get_raag, get_raag_list
-from util.freq import get_frequency
+from sequencer import Sequencer
 
 import code
 import os
-
-from threading import Thread
 import Queue
 
-options = {
-    'format': paInt16,
-    'channels': 2,
-    'sampling_rate': 22000,
-    'save_file': 'testfile.wav'
-}
+from threading import Thread
 
 root = [440]
 raag = {'name' : None}
 
-patcher = Patcher(options)
-module = patcher.module
-T = 0.2
-
+sequencer = Sequencer()
 status_queue = Queue.Queue()
 
 status = {
     'notes': [1],
     'root': root,
-    'duration': [T],
+    'duration': [0.2],
     'stutter': [1]
 }
 
-
-def sequence(queue):
-    current_status = {
-        'notes': [1],
-        'root': [440],
-        'duration': [0.2],
-        'stutter': [1]
-    }
-    while True:
-
-        try:
-            new_status = queue.get(timeout=0.1)
-            current_status = dict(current_status, **new_status)
-        except Queue.Empty:
-            pass
-
-        '''
-        TODO: for note, time in zip(current_status['notes'], current_status['time'])
-        '''
-
-        for note in current_status['notes']:
-            if note == 0:
-                continue
-
-            freq = get_frequency(current_status['root'][0], int(note) - 1)
-            for i in range (0, current_status['stutter'][0]):
-                osc = module.osc_tone(current_status['duration'][0] / current_status['stutter'][0], freq)
-                patcher.to_master(osc, 0.5, 0.5)
-
-
-t = Thread(target=sequence, args=(status_queue,))
+t = Thread(target=sequencer.sequence, args=(status_queue,))
 t.daemon = True
 t.start()
 

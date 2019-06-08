@@ -1,5 +1,6 @@
 from noteparser import get_raag, get_raag_list
 from sequencer import Sequencer
+from pattern import P
 
 import code
 import os
@@ -36,13 +37,16 @@ def avaroha(num_notes, stutter=1):
     play_notes = raag['avaroha']
     sequence_notes(play_notes, num_notes, stutter)
 
-def sequence_notes(note_list, num_notes, stutter):
+def sequence_notes(note_list, num_notes = None, stutter=1):
     status['stutter'] = [stutter]
-    if num_notes > len(note_list):
+
+    if num_notes is None:
+        status['notes'] = note_list
+
+    elif num_notes > len(note_list):
         status['notes'] = note_list
         for n in range(1, num_notes - len(note_list)):
             status['notes'].append(int(note_list[n]) + 12)
-
     else:
         status['notes'] = note_list[0: num_notes]
     status_queue.put(status)

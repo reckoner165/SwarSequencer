@@ -48,7 +48,8 @@ To exit the interpreter, type `exit()`
 
 This will terminate your session and export a `testfile.wav` in the root directory of your cloned repo.
 
-## List of Methods (WIP documentation)
+## WIP documentation
+### List of Methods
 
  - aaroha(number_of_notes, stutter)
  - avaroha(number_of_notes, stutter)
@@ -59,6 +60,15 @@ This will terminate your session and export a `testfile.wav` in the root directo
  - set_root(root_note_frequency)
  - sequence_notes(list_of_notes, number_of_notes_to_play, stutter)
  - exit()
+
+ ### Pattern 'P' object
+
+ The pattern object allows you to stack manipulations on a sequence of notes before passing them off for playback.
+
+ - palindrome() - appends a given pattern with its reverse
+ - loop(num_of_iter) - loops a given pattern by num_of_iter times
+ - converge() - loops a pattern while successively omitting the first element until there are no elements
+ - get() - returns the pattern as a recursive list of notes
 
 
 ## Shoulders

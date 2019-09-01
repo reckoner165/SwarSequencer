@@ -4,6 +4,7 @@ from pyaudio import paInt16
 from packages.soundmodular import Patcher
 from util.freq import get_frequency
 import Queue
+import random
 
 class Sequencer:
     def __init__(self):
@@ -17,14 +18,17 @@ class Sequencer:
         self.patcher = Patcher(options)
         self.module = self.patcher.module
 
-    def sequence(self, queue):
-        self.status = {
+        self.home_status = {
             'notes': [1],
             'root': [440],
             'duration': [0.2],
-            'stutter': [1]
+            'stutter': [1],
+            'degrade': [0]
         }
 
+        self.status = self.home_status
+
+    def sequence(self, queue):
         while True:
 
             try:
@@ -38,14 +42,18 @@ class Sequencer:
             '''
 
             self.play(self.status['notes'], self.status['duration'][0])
+            self.status = dict(self.status, **self.home_status)
 
 
     def play(self, notes, duration):
         for note in notes:
                 # Subdivided notes are in a list
                 if type(note) is list:
-                    self.play(note, duration/len(note))
+                    self.play(note, duration/len(note), degrade)
                     continue
+
+                # if random.random() <= degrade:
+                #     self.play([0], duration)
 
                 # 0 signifies a rest/silent note
                 if note == 0:
@@ -56,5 +64,11 @@ class Sequencer:
 
                 freq = get_frequency(self.status['root'][0], int(note) - 1)
                 for i in range (0, self.status['stutter'][0]):
-                    osc = self.module.osc_tone(duration / self.status['stutter'][0], freq)
-                    self.patcher.to_master(osc, 0.5, 0.5)
+                    if random.random() <= self.status['degrade'][0]:
+                        silence = self.module.silence(duration)
+                        self.patcher.to_master(silence, 0, 0)
+                    else:
+                        osc = self.module.osc_tone(duration / self.status['stutter'][0], freq)
+                        self.patcher.to_master(osc, 0.5, 0.5)
+
+

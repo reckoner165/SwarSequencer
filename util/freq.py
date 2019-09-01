@@ -20,4 +20,7 @@ def get_frequency(root_freq, semitone):
     if semitone >= 12:
         return 2 * get_frequency(root_freq, semitone - 12)
 
+    if semitone < 0:
+        return 0.5 * get_frequency(root_freq, semitone + 12)
+
     return root_freq * semitones[semitone]

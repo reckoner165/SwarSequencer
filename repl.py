@@ -4,8 +4,9 @@ from sequencer import Sequencer
 import code
 import os
 import Queue
+import random
 
-from threading import Thread
+from threading import Thread, Timer
 
 root = [440]
 raag = get_raag('Bhairav')
@@ -33,37 +34,86 @@ def set_phrase_length(length):
     global phrase_length
     phrase_length = length
 
-def aaroha(stutter=1, degrade=0):
-    play_notes = _get_aaroha(phrase_length, stutter)
+def aaroha(subphrases=1, stutter=1, degrade=0):
+    play_notes = _get_aaroha(subphrases, phrase_length)
+    print "playing aaroha", play_notes
     status['notes'] = play_notes
     status['degrade'] = [degrade]
-    send_notes(status)
-
-def avaroha(stutter=1, degrade=0):
-    play_notes = _get_avaroha(phrase_length, stutter)
-    status['notes'] = play_notes
-    status['degrade'] = [degrade]
-    send_notes(status)
-
-def sequence_notes(note_list, num_notes, stutter, is_avaroha = False):
     status['stutter'] = [stutter]
-    if num_notes > len(note_list):
-        return_notes = note_list
-        if is_avaroha:
-            for n in range(0, num_notes - len(note_list)):
-                return_notes.append(int(note_list[n]) - 12)
+    send_notes(status)
+
+def avaroha(subphrases=1, stutter=1, degrade=0):
+    play_notes = _get_avaroha(subphrases, phrase_length)
+    print "playing avaroha", play_notes
+    status['notes'] = play_notes
+    status['degrade'] = [degrade]
+    status['stutter'] = [stutter]
+    send_notes(status)
+
+def sequence_phrases(num_phrases, note_list, is_avaroha=False):
+    global phrase_length
+    used_up_phase_lengths = 0
+    phrase = []
+
+    for n in range(0, num_phrases):
+        # Pick a random starting point for each subphrase
+        seed = random.randint(1,len(note_list))
+
+        # If this is the final subphrase, user remainder length as subphrase length
+        if n == num_phrases - 1:
+            subphrase_length = phrase_length - used_up_phase_lengths
+
         else:
-            for n in range(0, num_notes - len(note_list)):
-                return_notes.append(int(note_list[n]) + 12)
+            subphrase_length = random.randint(2, phrase_length/num_phrases)
+            used_up_phase_lengths += subphrase_length
 
+        phrase += sequence_phrase(note_list, subphrase_length, is_avaroha, seed=seed)
+
+    # BUG: Sometime the phrase comes shorter than phrase_length. Needs to be fixed.
+    # if len(phrase) < phrase_length:
+    #     print "SHORT!"
+    return phrase
+
+def sequence_phrase(note_list, num_notes, is_avaroha, seed=1):
+    print num_notes
+
+    start = seed - 1
+    offset = start + num_notes
+
+    if offset > len(note_list):
+        return_notes = note_list[start:]
+        for n in range(0, offset - len(note_list)):
+            if is_avaroha is True:
+                return_notes.append(get_note_at_index(note_list, n, is_avaroha=True) + 12)
+            else:
+                return_notes.append(get_note_at_index(note_list, n, is_avaroha=False) + 12)
+            print return_notes
     else:
-        return_notes = note_list[0: num_notes]
+        return_notes = note_list[start:offset]
 
-    print return_notes
     return return_notes
 
+'''
+Returns note at a given index, given the list of notes.
+If the index falls outside the list, the method wraps around the list, while changing the octave.
+'''
+def get_note_at_index(list, index, is_avaroha=False):
+    if index >= len(list):
+        if is_avaroha is True:
+            return int(get_note_at_index(list, index - len(list), is_avaroha)) - 12
+        else:
+            print len(list), index
+            return int(get_note_at_index(list, index - len(list))) + 12
+    else:
+        return int(list[index])
+
 def send_notes(status):
-    status_queue.put(status)
+    try:
+        # Throttle adding data to the queue in case multiple queue values cancel each other out
+        status_queue.put(status, timeout=0.1)
+    except Queue.Full:
+        timer = Timer(0.2, send_notes, status)
+        timer.start()
 
 def set_raag(raag_name):
     global raag
@@ -95,15 +145,15 @@ def bpm(bpm):
     print "Tempo set to", bpm
 
 # Internal Methods
-def _get_aaroha(num_notes, stutter=1):
+def _get_aaroha(subphrases, num_notes):
     global raag
     play_notes = raag['aaroha']
-    return sequence_notes(play_notes, num_notes, stutter)
+    return sequence_phrases(subphrases, play_notes, num_notes)
 
-def _get_avaroha(num_notes, stutter=1):
+def _get_avaroha(subphrases, num_notes):
     global raag
     play_notes = raag['avaroha']
-    return sequence_notes(play_notes, num_notes, stutter, is_avaroha = True)
+    return sequence_phrases(subphrases, play_notes, is_avaroha = True)
 
 
 if __name__ == "__main__":

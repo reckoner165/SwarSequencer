@@ -49,7 +49,7 @@ class Sequencer:
         for note in notes:
                 # Subdivided notes are in a list
                 if type(note) is list:
-                    self.play(note, duration/len(note), degrade)
+                    self.play(note, duration/len(note))
                     continue
 
                 # if random.random() <= degrade:
